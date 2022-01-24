@@ -28,8 +28,6 @@ namespace StudentRevisionApp
                 "10 * 12",
                 "8 * 4",
                 "2 * 12",
-                "(0.25 * 100) / 10",
-                "0.072 * 32",
             };
 
             var random = new Random();
@@ -64,14 +62,43 @@ namespace StudentRevisionApp
 
         private void checkButton_Click(object sender, EventArgs e)
         {
+            var numberQueue = new Queue<int>();
             foreach (var pair in _keyValuePairs)
             {
                 var label = pair.Key;
                 string[] numberArray = label.Text.Split('*');
-                
-                
+
+                if (numberArray.Length > 0)
+                {
+                    int num1 = int.Parse(numberArray[0]);
+                    int num2 = int.Parse(numberArray[1]);
+
+                    numberQueue.Append(num1);
+                    numberQueue.Append(num2);
+                } else
+                {
+                    continue;
+                }
+                int oldNext = 0;
+
+                while (numberQueue.Count > 0)
+                {
+                    var next = numberQueue.Peek();
+                    oldNext = next;
+
+                    if (int.Parse(pair.Value.Text) != (oldNext * next))
+                    {
+                        this.Controls.remove(pair.Value);
+                        pair.Value.BackColor = Color.Red;
+                        this.Controls.Add(pair.Value);
+                    } else
+                    {
+                        pair.Value.BackColor = Color.Green;
+                    }
+                }
 
             }
+
         }
     }
 }
