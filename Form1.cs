@@ -28,43 +28,55 @@ namespace StudentRevisionApp
                 "10 * 12",
                 "8 * 4",
                 "2 * 12",
+                "10 * 10"
             };
 
             var random = new Random();
-            var questionNum = 0;
+            int questionNum = 0;
 
             const int pointX = 30;
             const int pointY = 40;
 
             var prevPointY = 0;
 
-            do
+            while (questionNum <= 10)
             {
                 Label label = new();
                 label.Text = questions[random.Next(questions.Length)];
-                label.Location = new Point(pointX, prevPointY == 0 ? pointY : prevPointY + 40);
+
+                int newPointY = prevPointY == 0 ? pointY : prevPointY + 40;
+                prevPointY = newPointY;
+
+                label.Location = new Point(pointX, prevPointY == 0 ? pointY : newPointY);
+
                 label.AutoSize = true;
+                label.Size = new Size(100, 200);
                 label.BackColor = Color.LightGray;
                 label.Font = new Font("Arial", 14);
 
                 this.Controls.Add(label);
 
                 TextBox textBox = new TextBox();
-                textBox.Location = new Point(label.Location.X + 200, label.Location.Y);
+                textBox.Location = new Point(label.Location.X + 300, label.Location.Y);
                 textBox.BackColor = Color.LightGray;
                 
                 Controls.Add(textBox);
                 _keyValuePairs[label] = textBox;
-                prevPointY = pointY;
                 questionNum++;
-            } while (questionNum != 5);
+            }
         }
 
         private void checkButton_Click(object sender, EventArgs e)
         {
-            var numberQueue = new Queue<int>();
+            Dictionary<Label, int> correctAnswers = new();
+            var givenAnswers = new Dictionary<Label, int>();
             foreach (var pair in _keyValuePairs)
             {
+                if (pair.Value == null || pair.Value.Text == null || pair.Value.Text.Length == 0)
+                {
+                    MessageBox.Show("You are missing text in one or more boxes!");
+                    break;
+                }
                 var label = pair.Key;
                 string[] numberArray = label.Text.Split('*');
 
@@ -73,30 +85,37 @@ namespace StudentRevisionApp
                     int num1 = int.Parse(numberArray[0]);
                     int num2 = int.Parse(numberArray[1]);
 
-                    numberQueue.Append(num1);
-                    numberQueue.Append(num2);
-                } else
-                {
-                    continue;
+                    correctAnswers.Add(label, num1 * num2);
+                    givenAnswers.Add(label, int.Parse(pair.Value.Text));
                 }
-                int oldNext = 0;
+            }
 
-                while (numberQueue.Count > 0)
+            foreach (var givenAnswer in givenAnswers)
+            {
+                foreach (var answer in correctAnswers)
                 {
-                    var next = numberQueue.Peek();
-                    oldNext = next;
+                    if (givenAnswer.Key == answer.Key)
+                    {
+                        if (givenAnswer.Value != answer.Value )
+                        {
+                            var associatedTextBox = _keyValuePairs[givenAnswer.Key];
+                            Controls.Remove(associatedTextBox);
 
-                    if (int.Parse(pair.Value.Text) != (oldNext * next))
-                    {
-                        this.Controls.remove(pair.Value);
-                        pair.Value.BackColor = Color.Red;
-                        this.Controls.Add(pair.Value);
-                    } else
-                    {
-                        pair.Value.BackColor = Color.Green;
+                            associatedTextBox.BackColor = Color.Red;
+
+                            Controls.Add(associatedTextBox);
+                        } 
+                        else
+                        {
+                            var associatedTextBox = _keyValuePairs[givenAnswer.Key];
+                            Controls.Remove(associatedTextBox);
+
+                            associatedTextBox.BackColor = Color.Green;
+
+                            Controls.Add(associatedTextBox);
+                        }
                     }
                 }
-
             }
 
         }
