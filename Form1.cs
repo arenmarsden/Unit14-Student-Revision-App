@@ -22,15 +22,6 @@ namespace StudentRevisionApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            string[] questions =
-            {
-                "9 * 10",
-                "10 * 12",
-                "8 * 4",
-                "2 * 12",
-                "10 * 10"
-            };
-
             var random = new Random();
             int questionNum = 0;
 
@@ -42,7 +33,9 @@ namespace StudentRevisionApp
             while (questionNum <= 10)
             {
                 Label label = new();
-                label.Text = questions[random.Next(questions.Length)];
+                int randomNumber1 = random.Next(1, 12);
+                int randomNumber2 = random.Next(1, 12);
+                label.Text = String.Format("{0} * {1}", randomNumber1, randomNumber2);
 
                 int newPointY = prevPointY == 0 ? pointY : prevPointY + 40;
                 prevPointY = newPointY;
@@ -59,7 +52,7 @@ namespace StudentRevisionApp
                 TextBox textBox = new TextBox();
                 textBox.Location = new Point(label.Location.X + 300, label.Location.Y);
                 textBox.BackColor = Color.LightGray;
-                
+
                 Controls.Add(textBox);
                 _keyValuePairs[label] = textBox;
                 questionNum++;
@@ -77,16 +70,24 @@ namespace StudentRevisionApp
                     MessageBox.Show("You are missing text in one or more boxes!");
                     break;
                 }
-                var label = pair.Key;
-                string[] numberArray = label.Text.Split('*');
 
-                if (numberArray.Length > 0)
+                if (int.TryParse(pair.Value.Text, out int num))
                 {
-                    int num1 = int.Parse(numberArray[0]);
-                    int num2 = int.Parse(numberArray[1]);
+                    var label = pair.Key;
+                    string[] numberArray = label.Text.Split('*');
 
-                    correctAnswers.Add(label, num1 * num2);
-                    givenAnswers.Add(label, int.Parse(pair.Value.Text));
+                    if (numberArray.Length > 0)
+                    {
+                        int num1 = int.Parse(numberArray[0]);
+                        int num2 = int.Parse(numberArray[1]);
+
+                        correctAnswers.Add(label, num1 * num2);
+                        givenAnswers.Add(label, num);
+                    }
+                } else
+                {
+                    MessageBox.Show("Please only enter integers!");
+                    return;
                 }
             }
 
@@ -117,7 +118,7 @@ namespace StudentRevisionApp
                     }
                 }
             }
-
         }
+
     }
 }

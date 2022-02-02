@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "GFpJMa8Rck+sQ+ShbstgoM2CLVAEOnlMX/6lmdRV5mpEjbHGBdf3Kg9hX8N41nyIzA6MzbWMjh1TvOeXmZ5r2Q==",
+  "dgSpecHash": "cu5Hp609v0MyvCf4PwiMuvzOl/4/rNzMezzq3gJ4Ve8vA6JU4VinoQeBLuipkq8X6m+/pRWJglGby56QpUNctw==",
   "success": true,
-  "projectFilePath": "H:\\Users\\1373289\\Repositories\\Unit14-Student-Revision-App\\StudentRevisionApp.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Projects\\StudentRevisionApp\\StudentRevisionApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\arenm\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512",
+    "C:\\Users\\arenm\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\arenm\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\arenm\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
