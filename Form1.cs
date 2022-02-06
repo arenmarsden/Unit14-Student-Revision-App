@@ -13,7 +13,9 @@ namespace StudentRevisionApp
 {
     public partial class Form1 : Form
     {
-        private Dictionary<Label, TextBox> _keyValuePairs = new();
+        private readonly Dictionary<Label, TextBox> _keyValuePairs = new();
+        private int Score = 0;
+        private readonly Label ScoreLabel = new();
 
         public Form1()
         {
@@ -22,6 +24,15 @@ namespace StudentRevisionApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            ScoreLabel.Text = "0";
+            ScoreLabel.AutoSize = true;
+            ScoreLabel.Location = new Point(900, 0);
+            ScoreLabel.Font = new Font("Arial", 14);
+            ScoreLabel.TabIndex = 0;
+            ScoreLabel.BackColor = SystemColors.Highlight;
+
+            Controls.Add(ScoreLabel);
+
             var random = new Random();
             int questionNum = 0;
 
@@ -49,7 +60,7 @@ namespace StudentRevisionApp
 
                 this.Controls.Add(label);
 
-                TextBox textBox = new TextBox();
+                TextBox textBox = new();
                 textBox.Location = new Point(label.Location.X + 300, label.Location.Y);
                 textBox.BackColor = Color.LightGray;
 
@@ -112,6 +123,18 @@ namespace StudentRevisionApp
                             Controls.Remove(associatedTextBox);
 
                             associatedTextBox.BackColor = Color.Green;
+
+                            Score += 10;
+                            Controls.Remove(ScoreLabel);
+
+                            ScoreLabel.Text = Score.ToString();
+                            ScoreLabel.AutoSize = true;
+                            ScoreLabel.Location = new Point(900, 0);
+                            ScoreLabel.Font = new Font("Arial", 14);
+                            ScoreLabel.TabIndex = 0;
+                            ScoreLabel.BackColor = SystemColors.Highlight;
+
+                            Controls.Add(ScoreLabel);
 
                             Controls.Add(associatedTextBox);
                         }
