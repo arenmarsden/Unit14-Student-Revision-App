@@ -22,8 +22,12 @@ namespace StudentRevisionApp
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Randomly generate the equations in a range from 1 to 12 and generate the labels and text boxes accordingly.
+        /// </summary
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Generate score labels
             ScoreLabel.Text = "0";
             ScoreLabel.AutoSize = true;
             ScoreLabel.Location = new Point(900, 0);
@@ -32,15 +36,18 @@ namespace StudentRevisionApp
             ScoreLabel.BackColor = SystemColors.Highlight;
 
             Controls.Add(ScoreLabel);
-
+            
+            // Ensure randomness in questions
             var random = new Random();
             int questionNum = 0;
 
+            // Constant initialisation points for X and Y positions.
             const int pointX = 30;
             const int pointY = 40;
 
             var prevPointY = 0;
 
+            // Generate 10 questions for the student to answer.
             while (questionNum <= 10)
             {
                 Label label = new();
@@ -70,38 +77,53 @@ namespace StudentRevisionApp
             }
         }
 
+        /// <summary>
+        /// Check the answers given compared to the actual answers based off the labels.
+        /// </summary>
         private void checkButton_Click(object sender, EventArgs e)
         {
+            // Dictionaries to contain the ccorrect answers and given asnwers.
             Dictionary<Label, int> correctAnswers = new();
             var givenAnswers = new Dictionary<Label, int>();
+
+            // Iterate over the values for the labels and textboxes. The value is the text box and the key is the question.
             foreach (var pair in _keyValuePairs)
             {
+                // Check if any of the value is null or empty, if so, show a popup.
                 if (pair.Value == null || pair.Value.Text == null || pair.Value.Text.Length == 0)
                 {
                     MessageBox.Show("You are missing text in one or more boxes!");
                     break;
                 }
 
+                // Ensure that the entered input into the textbox is an integer, and nothing else.
                 if (int.TryParse(pair.Value.Text, out int num))
                 {
                     var label = pair.Key;
+
+                    // Get the two numbers making up the equation.
                     string[] numberArray = label.Text.Split('*');
 
+                    // Ensure nothing messed up...
                     if (numberArray.Length > 0)
                     {
+                        // Parse the split numbers into arrays.
                         int num1 = int.Parse(numberArray[0]);
                         int num2 = int.Parse(numberArray[1]);
 
+                        // Add the answers and given answers to the dictionary.
                         correctAnswers.Add(label, num1 * num2);
                         givenAnswers.Add(label, num);
                     }
                 } else
                 {
+                    // Show a popup warning to only enter ints.
                     MessageBox.Show("Please only enter integers!");
                     return;
                 }
             }
 
+            // Iterate over the given answers and correct answers and compare them.
             foreach (var givenAnswer in givenAnswers)
             {
                 foreach (var answer in correctAnswers)
