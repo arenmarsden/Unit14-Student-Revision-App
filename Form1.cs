@@ -24,7 +24,7 @@ namespace StudentRevisionApp
 
         /// <summary>
         /// Randomly generate the equations in a range from 1 to 12 and generate the labels and text boxes accordingly.
-        /// </summary
+        /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
             // Generate score labels
